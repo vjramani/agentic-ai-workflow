@@ -72,24 +72,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Notify on test results
-      if: needs.python-unit-tests.result == 'failure'
-      uses: dawidd6/action-send-mail@v3
-      with:
-        server_address: smtp.gmail.com
-        server_port: 587
-        username: ${{ secrets.NOTIFICATION_MAIL_USERNAME }}
-        password: ${{ secrets.NOTIFICATION_MAIL_PASSWORD }}
-        
-        subject: "❌ CI Alert: Test Failure in ${{ github.repository }}"
-        body: |
-          The Python unit tests failed!
+        if: needs.python-unit-tests.result == 'failure'
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.NOTIFICATION_MAIL_USERNAME }}
+          password: ${{ secrets.NOTIFICATION_MAIL_PASSWORD }}
           
-          Repository: ${{ github.repository }}
-          Branch: ${{ github.ref_name }}
-          Commit: ${{ github.sha }}
-          
-          View Logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        
-        # Parameterized Recipient
-        to: ${{ secrets.NOTIFICATION_EMAIL }}
-        from: GitHub Actions Bot
+          subject: "❌ CI Alert: Test Failure in ${{ github.repository }}"
+          body: |
+            The Python unit tests failed!
+            
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+            
+            View Logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+          to: ${{ secrets.NOTIFICATION_EMAIL }}
+          from: GitHub Actions Bot
